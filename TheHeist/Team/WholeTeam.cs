@@ -7,19 +7,17 @@ namespace TheHeist.Team
     class WholeTeam
     {
         public int TeamSkillLevel { get; set; } = 0;
+        public List<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
 
-        public void CalculateTeamSkillLevel(List<TeamMember> teamList)
+        public int CalculateTeamSkillLevel(List<TeamMember> teamList)
         {
-
+            TeamSkillLevel = 0;
             foreach (var name in teamList)
             {
-                TeamSkillLevel = name.SkillLevel + TeamSkillLevel;
+                TeamSkillLevel += name.SkillLevel;
+                //Console.WriteLine($"{TeamSkillLevel} from WholeTeam class!!");
             }
-        }
-
-        internal void Add(TeamMember member1)
-        {
-            throw new NotImplementedException();
+            return TeamSkillLevel;
         }
     }
 }
