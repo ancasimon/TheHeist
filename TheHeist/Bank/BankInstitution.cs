@@ -9,6 +9,21 @@ namespace TheHeist.Bank
     {
         //properties:
         public int BankDifficultyLevel { get; set; } = 100;
+        public int HeistLuckValue { get; set; }
+
+        public BankInstitution()
+        {
+            Random rnd = new Random();
+            HeistLuckValue = rnd.Next(-10, 10);
+            //Console.WriteLine($"Newly auto-generated heist luck value: {HeistLuckValue}!");
+        }
+
+        public void CalculateFinalBankDifficultyLevel()
+        {
+            BankDifficultyLevel = BankDifficultyLevel + HeistLuckValue;
+            //Console.WriteLine($"Newly calculated bank difficulty level is: {BankDifficultyLevel}!");
+        }
+
 
         public void Rob(List<TeamMember> teamList)
         {

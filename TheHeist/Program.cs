@@ -11,6 +11,7 @@ namespace TheHeist
         {
             string tryAgain = null;
             var bank1 = new BankInstitution();
+            bank1.CalculateFinalBankDifficultyLevel();
             //var currentTeam = new WholeTeam(); ANCA: Will come back to this when I figure out the WholeTeam class better!
             var currentTeam = new List<TeamMember>();
             var teamSkillLevel = 0;
@@ -45,8 +46,8 @@ namespace TheHeist
                             {
                                 Console.WriteLine();
                                 Console.WriteLine("What's the team member's courage factor? (on a scale from 0.0 to 2.0)");
-                                var teamMemberCourageFactor = Convert.ToInt32(Console.ReadLine());
-                                if (teamMemberCourageFactor > 2.0 || teamMemberCourageFactor < 0.0)
+                                var teamMemberCourageFactor = decimal.Parse(Console.ReadLine());
+                                if (teamMemberCourageFactor > 2.0M || teamMemberCourageFactor < 0.0M)
                                 {
                                     Console.WriteLine("You must enter a courage level between 0.0 and 2.0!");
                                 }
@@ -66,7 +67,6 @@ namespace TheHeist
                                     };
                                     member1.DisplayTeamMember(member1.Name, member1.SkillLevel, member1.CourageFactor);
                                     //member1.DisplayTeamMember();
-                                    //Console.WriteLine(member1.ToString());
                                     currentTeam.Add(member1);
                                 }
                             }
@@ -74,34 +74,6 @@ namespace TheHeist
 
                     }
 
-                    if (currentTeam.Count != 0)
-                    {
-                        Console.WriteLine($"Your team currently has {currentTeam.Count} members.");
-                        foreach (var name in currentTeam)
-                        {
-                            //Console.WriteLine($"{name.Name} has a skill level of {name.SkillLevel} and a courage factor of {name.CourageFactor}.");
-                            //name.DisplayTeamMember(name.Name, name.SkillLevel, name.CourageFactor);
-                            name.DisplayTeamMember();
-                            teamSkillLevel = name.SkillLevel + teamSkillLevel;
-                            //currentTeam.CalculateTeamSkillLevel  //ANCA: Will come back when I figure out the WholeTeam class!
-                            //Console.WriteLine($"Current team skill level is: {teamSkillLevel}.");
-                        }
-                    }
-
-                    //Console.WriteLine($"Final team skill level is: {teamSkillLevel}.");
-
-                    //DISCUSSED IN CLASS:
-                    //wondering where the methods should go - where should the logic live? who should determine if the team got to rob the bank?
-                    //Program file is supposed to be just an orchestrator!!! do not put details of methods in here!! just like a recipe - should just include the steps that call out to other things!
-
-                    if (teamSkillLevel >= bank1.BankDifficultyLevel) //Anca: move this to the Bank file - have a method call Rob() that would take in a team parameter!!! STILL WORKING ON THIS!!
-                    {
-                        Console.WriteLine($"Current team skill level is {teamSkillLevel}! You might get lucky and actually get some money out of this heist!");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Current team skill level is {teamSkillLevel}! Pretty sure y'all are gonna end up in jail...");
-                    }
 
 
                     Console.WriteLine("Would you like to add a team member? (Enter Yes or leave blank if No!)");
@@ -109,6 +81,44 @@ namespace TheHeist
                 }
             }
             while (tryAgain != "");
+
+
+            if (currentTeam.Count != 0)
+            {
+                Console.WriteLine($"Your team currently has {currentTeam.Count} members.");
+                foreach (var name in currentTeam)
+                {
+                    //Console.WriteLine($"{name.Name} has a skill level of {name.SkillLevel} and a courage factor of {name.CourageFactor}.");
+                    //name.DisplayTeamMember(name.Name, name.SkillLevel, name.CourageFactor);
+                    name.DisplayTeamMember();
+                    teamSkillLevel = name.SkillLevel + teamSkillLevel;
+                    //currentTeam.CalculateTeamSkillLevel  //ANCA: Will come back when I figure out the WholeTeam class!
+                    //Console.WriteLine($"Current team skill level is: {teamSkillLevel}.");
+                }
+            }
+
+            //Console.WriteLine($"Final team skill level is: {teamSkillLevel}.");
+
+            //DISCUSSED IN CLASS:
+            //wondering where the methods should go - where should the logic live? who should determine if the team got to rob the bank?
+            //Program file is supposed to be just an orchestrator!!! do not put details of methods in here!! just like a recipe - should just include the steps that call out to other things!
+
+            Console.WriteLine(@$"Here's your data:
+-- Current team skill level is {teamSkillLevel}. 
+-- Bank difficulty level is {bank1.BankDifficultyLevel}.
+-- (This does include a randomly-generated heist luck value of {bank1.HeistLuckValue}.)
+");
+
+            if (teamSkillLevel >= bank1.BankDifficultyLevel) //Anca: move this to the Bank file - have a method call Rob() that would take in a team parameter!!! STILL WORKING ON THIS!!
+            {
+                Console.WriteLine("You might get lucky and actually get some money out of this heist!");
+            }
+            else
+            {
+                Console.WriteLine("Pretty sure y'all are gonna end up in jail...");
+            }
+
+
         }
     }
 }
