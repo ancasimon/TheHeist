@@ -18,6 +18,12 @@ namespace TheHeist
             var attemptCount = 1;
             var currentTeam = new List<TeamMember>();
             var teamSkillLevel = 0;
+            int userBankDifficultyLevel;
+            int successCount = 0;
+            int failureCount = 0;
+
+            Console.WriteLine("How difficult do you really think it will be to rob a bank - on a scale from 0 to 100??");
+            userBankDifficultyLevel = Convert.ToInt32(Console.ReadLine());
 
             do
             {
@@ -30,7 +36,7 @@ namespace TheHeist
                 }
                 else
                 {
-                    Console.WriteLine("What's the team member's skill level?");
+                    Console.WriteLine($"What's {teamMemberName}'s skill level?");
                     var userInput = Console.ReadLine();
                     if (userInput == "")
                     {
@@ -46,7 +52,7 @@ namespace TheHeist
                         else
                         {
                             Console.WriteLine();
-                            Console.WriteLine("What's the team member's courage factor? (on a scale from 0.0 to 2.0)");
+                            Console.WriteLine($"What's {teamMemberName}'s courage factor? (on a scale from 0.0 to 2.0)");
                             var teamMemberCourageFactor = decimal.Parse(Console.ReadLine());
                             if (teamMemberCourageFactor > 2.0M || teamMemberCourageFactor < 0.0M)
                             {
@@ -98,25 +104,29 @@ namespace TheHeist
             for (int i = 1; i <= userAttempts; i++)
             {
                 var bank1 = new BankInstitution();
-                bank1.CalculateFinalBankDifficultyLevel();
+                bank1.CalculateFinalBankDifficultyLevel(userBankDifficultyLevel);
                 Console.WriteLine(@$"Here's your data:
 -- Current team skill level is {teamSkillLevel}. 
--- Bank difficulty level is {bank1.BankDifficultyLevel}.
+-- Bank difficulty level is {bank1.FinalBankDifficultyLevel}.
 -- (This does include a randomly-generated heist luck value of {bank1.HeistLuckValue}.)");
 
-                if (teamSkillLevel >= bank1.BankDifficultyLevel) //Anca: move this to the Bank file - have a method call Rob() that would take in a team parameter!!! STILL WORKING ON THIS!!
+                if (teamSkillLevel >= bank1.FinalBankDifficultyLevel) //Anca: move this to the Bank file - have a method call Rob() that would take in a team parameter!!! STILL WORKING ON THIS!!
                 {
+                    successCount++;
                     Console.WriteLine("Final Answer: You might get lucky and actually get some money out of this heist!");
                     Console.WriteLine();
                 }
                 else
                 {
+                    failureCount++;
                     Console.WriteLine("Final Answer: Pretty sure y'all are gonna end up in jail...");
                     Console.WriteLine();
                 }
             attemptCount++;
             }
 
+            Console.WriteLine($"You had {successCount} successes!");
+            Console.WriteLine($"You had {failureCount} failures!");
 
                 //DISCUSSED IN CLASS:
                 //wondering where the methods should go - where should the logic live? who should determine if the team got to rob the bank?
