@@ -11,7 +11,7 @@ namespace TheHeist
             string tryAgain = null;
             var team = new List<TeamMember>();
 
-            //Phase 1: Get a team member's name and store it!
+            
             do
             {
                 Console.WriteLine("Plan Your Heist!");
@@ -61,10 +61,12 @@ Courage Factor: {teamMemberCourageFactor};
                     
 
                 }
-                foreach(var name in team)
+                Console.WriteLine($"Your team currently has {team.Count} members.");
+                foreach (var name in team)
                 {
                     Console.WriteLine($"{name.Name} has a skill level of {name.SkillLevel} and a courage factor of {name.CourageFactor}.");
                 }
+                
 
                 Console.WriteLine("Would you like to add a team member? (Enter Yes or leave blank if No!)");
                 tryAgain = Console.ReadLine();
